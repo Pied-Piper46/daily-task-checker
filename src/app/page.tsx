@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Dashboard from '@/app/components/Dashboard';
 
 
 // Dashboard Placeholder
@@ -42,5 +43,5 @@ export default function HomePage() {
     return null; // TODO: Handle unauthenticated state
   }
 
-  return <DashboardPlaceholder />;
+  return <Dashboard />;
 }

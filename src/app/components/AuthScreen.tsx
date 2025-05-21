@@ -32,7 +32,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
             <div className="w-full max-w-md p-8 space-y-6 bg-slate-800 rounded-xl shadow-2xl">
                 <div className="flex flex-col items-center space-y-2">
                     <LockIcon className="w-16 h-16 text-sky-500" />
-                    <h1 className="text-3xl font-bold text-center text-slate-100">IoT Dashboard</h1>
+                    <h1 className="text-3xl font-bold text-center text-slate-100">Daily Task Checker Dashboard</h1>
                     <p className="text-center text-slate-400">Enter password to access</p>
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
