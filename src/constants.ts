@@ -5,4 +5,4 @@ export const STATUS_DISPLAY: Record<Status, string> = {
     [Status.NOT_DONE]: 'Not Done',
 };
 
-export const API_SIMULATION_DELAY = 1000; // ms
+export const API_SIMULATION_DELAY = 500; // ms

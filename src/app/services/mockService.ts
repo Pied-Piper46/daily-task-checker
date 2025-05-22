@@ -2,6 +2,7 @@ import { Device, Status } from '@/types';
 import { API_SIMULATION_DELAY } from '@/constants';
 
 const DEVICE_STORAGE_KEY = 'iot_devices';
+const HISTORY_STORAGE_KEY_PREFIX = `iot_devices_history_`;
 
 const getStoredDevices = (): Device[] => {
     if (typeof window == 'undefined') return [];
@@ -83,6 +84,22 @@ export const mockApi = {
                 // storeDevices(devices); // Store updated devices if any changes were made
 
                 resolve(devices);
+            }, API_SIMULATION_DELAY);
+        });
+    },
+
+    deleteDevice: async (deviceId: string): Promise<void> => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                if (typeof window === 'undefined') {
+                    resolve();
+                    return;
+                }
+                const devices = getStoredDevices().filter(d => d.deviceId !== deviceId);
+                storeDevices(devices);
+                localStorage.removeItem(`${HISTORY_STORAGE_KEY_PREFIX}${deviceId}`);
+                localStorage.removeItem(`iot_dashboard_last_reset_${deviceId}`);
+                resolve();
             }, API_SIMULATION_DELAY);
         });
     },
