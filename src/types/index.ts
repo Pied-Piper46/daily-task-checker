@@ -9,3 +9,8 @@ export interface Device {
     status: Status;
     lastUpdatedAt: string; // or Date
 }
+
+export interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
