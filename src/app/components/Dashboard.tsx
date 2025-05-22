@@ -5,6 +5,7 @@ import { Device } from '@/types';
 import { mockApi } from '@/app/services/mockService';
 import DeviceCard from '@/app/components/DeviceCard';
 import RegisterDeviceModal from '@/app/components/modals/RegisterDeviceModal';
+import DeviceHistoryModal from '@/app/components/modals/DeviceHistoryModal';
 import ChangeTaskNameModal from '@/app/components/modals/ChangeTaskNameModal';
 import ConfirmationModal from '@/app/components/modals/ConfirmationModal';
 import { PlusIcon, LogoutIcon, DeviceTabletIcon } from '@/app/components/icons/SolidIcons';
@@ -21,6 +22,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     const [error, setError] = useState<string | null>(null);
 
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState<boolean>(false);
+    const [isHistoryModalOpen, setIsHistoryModalOpen] = useState<boolean>(false);
     const [isChangeTaskModalOpen, setIsChangeTaskModalOpen] = useState<boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -46,6 +48,11 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
     const handleOpenRegisterModal = () => setIsRegisterModalOpen(true);
 
+    const handleOpenHistoryModal = (device: Device) => {
+        setSelectedDevice(device);
+        setIsHistoryModalOpen(true);
+    };
+
     const handleOpenChangeTaskModal = (device: Device) => {
         setSelectedDevice(device);
         setIsChangeTaskModalOpen(true);
@@ -58,14 +65,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
     const closeModalAndRefresh = () => {
         setIsRegisterModalOpen(false);
+        setIsHistoryModalOpen(false);
         setIsChangeTaskModalOpen(false);
         setIsDeleteModalOpen(false);
         setSelectedDevice(null);
         fetchDevices();
     };
-
-    const handleHistory = (device: Device) => console.log(`History for ${device.deviceId}`);
-    const handleEdit = (device: Device) => console.log(`Edit for ${device.deviceId}`);
 
     const handleDeviceDeleted = () => {
         if (selectedDevice) {
@@ -111,7 +116,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
             {!isLoading && !error && devices.length === 0 && (
                 <div className="flex-grow text-center text-slate-400 py-10"> {/* Added flex-grow */}
                 <p className="text-xl mb-2">No devices registered yet.</p>
-                <p>Click "Register Device" to add your first IoT device.</p>
+                <p>Click &quot;Register Device&quot; to add your first IoT device.</p>
                 </div>
             )}
 
@@ -121,7 +126,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                     <DeviceCard
                     key={device.deviceId}
                     device={device}
-                    onViewHistory={handleHistory}
+                    onViewHistory={handleOpenHistoryModal}
                     onChangeTask={handleOpenChangeTaskModal}
                     onDelete={handleOpenDeleteModal}
                     />
@@ -134,6 +139,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                     isOpen={isRegisterModalOpen}
                     onClose={closeModalAndRefresh}
                     onDeviceRegistered={closeModalAndRefresh}
+                />
+            )}
+
+            {selectedDevice && isHistoryModalOpen && (
+                <DeviceHistoryModal
+                    isOpen={isHistoryModalOpen}
+                    onClose={closeModalAndRefresh}
+                    device={selectedDevice}
                 />
             )}
 

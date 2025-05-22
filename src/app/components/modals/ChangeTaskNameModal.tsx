@@ -43,7 +43,7 @@ const ChangeTaskNameModal: React.FC<ChangeTaskNameModalProps> = ({ isOpen, onClo
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label htmlFor="newTaskName" className="block text-sm font-medium text-slate-300 mb-1">
-                        New Task Name for "{device.taskName}"
+                        New Task Name for &quot;{device.taskName}&quot;
                     </label>
                     <input
                         type="text"

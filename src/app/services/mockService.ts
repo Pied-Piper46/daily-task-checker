@@ -15,11 +15,11 @@ const storeDevices = (devices: Device[]) => {
     localStorage.setItem(DEVICE_STORAGE_KEY, JSON.stringify(devices));
 };
 
-// const getStoredHistory = (deviceId: string): HistoryEntry[] => {
-//     if (typeof window === 'undefined') return [];
-//     const stored = localStorage.getItem(`${HISTORY_STORAGE_KEY_PREFIX}${deviceId}`);
-//     return stored ? JSON.parse(stored) : [];
-// };
+const getStoredHistory = (deviceId: string): HistoryEntry[] => {
+    if (typeof window === 'undefined') return [];
+    const stored = localStorage.getItem(`${HISTORY_STORAGE_KEY_PREFIX}${deviceId}`);
+    return stored ? JSON.parse(stored) : [];
+};
 
 const storeHistory = (deviceId: string, history: HistoryEntry[]): void => {
     if (typeof window === 'undefined') return;
@@ -95,6 +95,53 @@ export const mockApi = {
                 // storeDevices(devices); // Store updated devices if any changes were made
 
                 resolve(devices);
+            }, API_SIMULATION_DELAY);
+        });
+    },
+
+    // updateDeviceStatusFromESP: async (deviceId: string, status: Status, timestamp: string): Promise<Device> => {
+    //     console.log(`ESP32 reported status for ${deviceId}: ${status} at ${timestamp}`);
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             if (typeof window === 'undefined') {
+    //                 reject(new Error('localStorage is not available.'));
+    //                 return;
+    //             }
+    //             const devices = getStoredDevices();
+    //             const deviceIndex = devices.findIndex(d => d.deviceId === deviceId);
+    //             if (deviceIndex === -1) {
+    //                 reject(new Error('Device not found.'));
+    //                 return;
+    //             }
+    //             const updatedDevice = { ...devices[deviceIndex], status };
+    //             devices[deviceIndex] = updatedDevice;
+    //             storeDevices(devices);
+
+    //             // Update history
+    //             const history = getStoredHistory(deviceId);
+    //             const today = new Date(timestamp).toISOString().split('T')[0]; // Use reported timestamp's date
+    //             const existingEntryIndex = history.findIndex(h => h.date === today);
+    //             if (existingEntryIndex !== -1) {
+    //                 history[existingEntryIndex] = { date: today, status };
+    //             } else {
+    //                 history.unshift({ date: today, status });
+    //             }
+    //             storeHistory(deviceId, history.slice(0, 365)); // Keep up to a year of history
+    //             localStorage.setItem(`iot_dashboard_last_reset_${deviceId}`, today.split('-')[0] !== new Date(localStorage.getItem(`iot_dashboard_last_reset_${deviceId}`) || '1970-01-01').getFullYear().toString() ? today : localStorage.getItem(`iot_dashboard_last_reset_${deviceId}`) || today);
+
+    //             resolve(updatedDevice);
+    //         }, API_SIMULATION_DELAY / 2); // Faster as it's a background update
+    //     });
+    // },
+
+    getDeviceHistory: async (deviceId: string): Promise<HistoryEntry[]> => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                if (typeof window === 'undefined') {
+                    resolve([]);
+                    return;
+                }
+                resolve(getStoredHistory(deviceId));
             }, API_SIMULATION_DELAY);
         });
     },
