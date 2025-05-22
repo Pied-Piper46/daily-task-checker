@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Device, Status } from '@/types';
-import { STATUS_DISPLAY } from '../../../constants';
+import { STATUS_DISPLAY } from '@/constants';
 import { CheckCircleIconSolid, XCircleIconSolid, CalendarDaysIconOutline, PencilSquareIconOutline, TrashIconOutline } from '@/app/components/icons/SolidAndOutlineIcons';
 
 interface DeviceCardProps {
@@ -17,7 +17,7 @@ const DeviceCard: React.FC<DeviceCardProps> = ({ device, onViewHistory, onChange
     const statusColor = isDone ? 'text-emerald-400' : 'text-amber-400';
     const statusIcon = isDone
         ? <CheckCircleIconSolid className={`w-7 h-7 ${statusColor}`} aria-label="Status Done" />
-        : <XCircleIconSolid className={`w-7 h-7 ${statusColor}`} aria-lable="Status Not Done" />;
+        : <XCircleIconSolid className={`w-7 h-7 ${statusColor}`} aria-label="Status Not Done" />;
 
     return (
         <article className="bg-slate-800 rounded-lg shadow-xl p-6 hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between" aria-labelledby={`device-task-${device.deviceId}`}>
