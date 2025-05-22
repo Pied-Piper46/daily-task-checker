@@ -122,7 +122,6 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
                         })}
                     </div>
                     {history.length === 0 && !isLoading && <p className="text-slate-400 text-center mt-4">No history records for this month or device.</p>}
-                    <p className="text-xs text-slate-500 mt-4 text-center">Note: History is always displayed with the current task name: "{device.taskName}".</p>
                 </div>
             )}
             <div className="mt-6 flex justify-end">

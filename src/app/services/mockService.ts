@@ -89,7 +89,10 @@ export const mockApi = {
                     resolve([]);
                     return;
                 }
-                let devices = getStoredDevices();
+
+                const devices = getStoredDevices();
+                // let devices = getStoredDevices();
+                
                 // Simulate daily reset logic on fetch
                 // devices = devices.map(simulateDailyResetIfNeeded);
                 // storeDevices(devices); // Store updated devices if any changes were made

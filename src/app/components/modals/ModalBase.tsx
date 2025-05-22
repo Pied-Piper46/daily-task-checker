@@ -11,15 +11,7 @@ interface ModalBaseProps extends ModalProps {
 }
 
 const ModalBase: React.FC<ModalBaseProps> = ({ isOpen, onClose, title, children, size = 'md' }) => {
-  if (!isOpen) return null;
-
-  const sizeClasses = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
-  };
-
+  
   // Prevent body scroll when modal is open
   React.useEffect(() => {
     if (isOpen) {
@@ -31,6 +23,15 @@ const ModalBase: React.FC<ModalBaseProps> = ({ isOpen, onClose, title, children,
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+  
+  if (!isOpen) return null;
+  
+  const sizeClasses = {
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
+  };
 
   return (
     <div 
