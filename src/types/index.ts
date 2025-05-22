@@ -10,6 +10,11 @@ export interface Device {
     lastUpdatedAt: string; // or Date
 }
 
+export interface HistoryEntry {
+    date: string;
+    status: Status;
+}
+
 export interface ModalProps {
     isOpen: boolean;
     onClose: () => void;

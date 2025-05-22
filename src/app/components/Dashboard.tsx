@@ -5,6 +5,7 @@ import { Device } from '@/types';
 import { mockApi } from '@/app/services/mockService';
 import DeviceCard from '@/app/components/DeviceCard';
 import RegisterDeviceModal from '@/app/components/modals/RegisterDeviceModal';
+import ChangeTaskNameModal from '@/app/components/modals/ChangeTaskNameModal';
 import ConfirmationModal from '@/app/components/modals/ConfirmationModal';
 import { PlusIcon, LogoutIcon, DeviceTabletIcon } from '@/app/components/icons/SolidIcons';
 
@@ -20,6 +21,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     const [error, setError] = useState<string | null>(null);
 
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState<boolean>(false);
+    const [isChangeTaskModalOpen, setIsChangeTaskModalOpen] = useState<boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
     const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
@@ -44,6 +46,11 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
     const handleOpenRegisterModal = () => setIsRegisterModalOpen(true);
 
+    const handleOpenChangeTaskModal = (device: Device) => {
+        setSelectedDevice(device);
+        setIsChangeTaskModalOpen(true);
+    };
+
     const handleOpenDeleteModal = (device: Device) => {
         setSelectedDevice(device);
         setIsDeleteModalOpen(true);
@@ -51,6 +58,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
     const closeModalAndRefresh = () => {
         setIsRegisterModalOpen(false);
+        setIsChangeTaskModalOpen(false);
         setIsDeleteModalOpen(false);
         setSelectedDevice(null);
         fetchDevices();
@@ -114,7 +122,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                     key={device.deviceId}
                     device={device}
                     onViewHistory={handleHistory}
-                    onChangeTask={handleEdit}
+                    onChangeTask={handleOpenChangeTaskModal}
                     onDelete={handleOpenDeleteModal}
                     />
                 ))}
@@ -129,12 +137,21 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                 />
             )}
 
+            {selectedDevice && isChangeTaskModalOpen && (
+                <ChangeTaskNameModal
+                    isOpen={isChangeTaskModalOpen}
+                    onClose={closeModalAndRefresh}
+                    device={selectedDevice}
+                    onTaskNameChanged={closeModalAndRefresh}
+                />
+            )}
+
             {selectedDevice && isDeleteModalOpen && (
                 <ConfirmationModal
                     isOpen={isDeleteModalOpen}
                     onClose={closeModalAndRefresh}
                     title={`Delete device ${selectedDevice.taskName}?`}
-                    message={`Are you sure you want to delete the device "${selectedDevice.taskName}" (ID: ${selectedDevice.deviceId})? This action cannot be undone.`}
+                    message={`Are you sure you want to delete the device \"${selectedDevice.taskName}\" (ID: ${selectedDevice.deviceId})? This action cannot be undone.`}
                     confirmText="Delete"
                     onConfirm={async () => {
                         if (selectedDevice) {

@@ -1,4 +1,4 @@
-import { Device, Status } from '@/types';
+import { Device, Status, HistoryEntry } from '@/types';
 import { API_SIMULATION_DELAY } from '@/constants';
 
 const DEVICE_STORAGE_KEY = 'iot_devices';
@@ -13,6 +13,17 @@ const getStoredDevices = (): Device[] => {
 const storeDevices = (devices: Device[]) => {
     if (typeof window == 'undefined') return;
     localStorage.setItem(DEVICE_STORAGE_KEY, JSON.stringify(devices));
+};
+
+// const getStoredHistory = (deviceId: string): HistoryEntry[] => {
+//     if (typeof window === 'undefined') return [];
+//     const stored = localStorage.getItem(`${HISTORY_STORAGE_KEY_PREFIX}${deviceId}`);
+//     return stored ? JSON.parse(stored) : [];
+// };
+
+const storeHistory = (deviceId: string, history: HistoryEntry[]): void => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem(`${HISTORY_STORAGE_KEY_PREFIX}${deviceId}`, JSON.stringify(history));
 };
 
 // Simulate daily reset for devices if not accessed on a new day.
@@ -84,6 +95,35 @@ export const mockApi = {
                 // storeDevices(devices); // Store updated devices if any changes were made
 
                 resolve(devices);
+            }, API_SIMULATION_DELAY);
+        });
+    },
+
+    updateTaskName: async (deviceId: string, newTaskName: string, resetHistory: boolean): Promise<Device> => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (typeof window === 'undefined') {
+                    reject(new Error('localStorage is not available'));
+                    return;
+                }
+                const devices = getStoredDevices();
+                const deviceIndex = devices.findIndex(d => d.deviceId === deviceId);
+                if (deviceIndex === -1) {
+                    reject(new Error('Device not found.'));
+                    return;
+                }
+                devices[deviceIndex].taskName = newTaskName;
+                storeDevices(devices);
+                if (resetHistory) {
+                    storeHistory(deviceId, []);
+                    // If history is reset, also reset its status to NOT_DONE for today
+                    devices[deviceIndex].status = Status.NOT_DONE;
+                    const today = new Date().toISOString().split('T')[0];
+                    storeHistory(deviceId, [{ date: today, status: Status.NOT_DONE }]);
+                    localStorage.setItem(`iot_dashboard_last_reset_${deviceId}`, today);
+                    storeDevices(devices);
+                }
+                resolve(devices[deviceIndex]);
             }, API_SIMULATION_DELAY);
         });
     },
