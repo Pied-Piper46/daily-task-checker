@@ -5,6 +5,7 @@ import {
     AuthResponse,
     DeviceRegistrationPayload,
     DeviceRegistrationResponse,
+    HistoryEntry, // Add HistoryEntry import
 } from '@/types';
 
 export async function authenticate(
@@ -142,6 +143,61 @@ export async function updateTaskName(
     } catch (error: any) {
         console.error(`Error updating task name for device ${deviceId}:`, error);
         throw new Error(error.message || 'An error occurred during task name update by client side.');
+    }
+}
+
+interface GetDeviceHistoryResponse {
+    deviceId: string;
+    taskName: string;
+    history: HistoryEntry[];
+    pageInfo?: {
+        totalCount: number;
+        currentPage: number;
+        totalPages: number;
+        hasNextPage: boolean;
+        hasPreviousPage: boolean;
+    };
+}
+
+export async function getDeviceHistory(
+    deviceId: string,
+    params?: {
+        startDate?: string;
+        endDate?: string;
+        limit?: number;
+        offset?: number;
+        order?: 'asc' | 'desc';
+    }
+): Promise<GetDeviceHistoryResponse> {
+    try {
+        const query = new URLSearchParams();
+        if (params?.startDate) query.append('startDate', params.startDate);
+        if (params?.endDate) query.append('endDate', params.endDate);
+        if (params?.limit) query.append('limit', params.limit.toString());
+        if (params?.offset) query.append('offset', params.offset.toString());
+        if (params?.order) query.append('order', params.order);
+
+        const queryString = query.toString();
+        const url = `/api/devices/${deviceId}/history${queryString ? `?${queryString}` : ''}`;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const responseData: GetDeviceHistoryResponse | { message: string } = await response.json();
+
+        if (!response.ok) {
+            throw new Error((responseData as { message: string }).message || `HTTP error! status: ${response.status}`);
+        }
+
+        return responseData as GetDeviceHistoryResponse;
+
+    } catch (error: any) {
+        console.error(`Error fetching history for device ${deviceId}:`, error);
+        throw new Error(error.message || 'An error occurred during device history fetch by client side.');
     }
 }
 

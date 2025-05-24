@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {ModalProps, Device, HistoryEntry, Status } from '@/types'; // Import Device from types
-import { mockApi } from '@/app/services/mockService';
+import { getDeviceHistory } from '@/app/services/apiService';
 import ModalBase from '@/app/components/modals/ModalBase';
 import { STATUS_DISPLAY } from '@/constants';
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIconSolid, XCircleIconSolid } from '@/app/components/icons/SolidAndOutlineIcons';
@@ -22,8 +22,8 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
         setIsLoading(true);
         setError(null);
         try {
-            const fetchedHistory = await mockApi.getDeviceHistory(device.deviceId);
-            setHistory(fetchedHistory);
+            const response = await getDeviceHistory(device.deviceId);
+            setHistory(response.history);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch device history.');
             console.error(err);
