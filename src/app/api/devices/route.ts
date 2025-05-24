@@ -1,18 +1,6 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient, Prisma } from '@prisma/client';
-
-// If it's production environment, create a new PrismaClient instance in each request
-let prisma: PrismaClient;
-
-if (process.env.NODE_ENV === 'production') {
-    prisma = new PrismaClient();
-} else {
-    // In development, use a global variable to avoid creating multiple instances
-    if (!global.prisma) {
-        global.prisma = new PrismaClient();
-    }
-    prisma = global.prisma;
-}
+import { Prisma } from '@prisma/client';
+import prisma from '@/lib/prisma';
 
 interface RegisterDeviceRequestBody {
     deviceId: string;
@@ -50,7 +38,7 @@ export async function POST(request: Request) {
 
         if (exisitingDevice) {
             return NextResponse.json(
-                { error: 'This Device ID already exists.' },
+                { error: 'This device ID already exists.' },
                 { status: 409 }
             );
         }
@@ -83,7 +71,7 @@ export async function POST(request: Request) {
             // Handle known Prisma errors, some cases that cannot be catched by above
             if (error.code === 'P2002') {
                 return NextResponse.json(
-                    { error: 'Unique constraint failed. Device ID already exists (DB Level).' },
+                    { error: 'Unique constraint constraint failed. Device ID already exists (DB Level).' },
                     { status: 409 }
                 );
             }
@@ -94,14 +82,9 @@ export async function POST(request: Request) {
         }
 
         return NextResponse.json(
-            { error: 'An error occurred while registering the device inside the server.' },
+            { error: 'An internal server error occurred while registering the device.' },
             { status: 500 }
         );
-    } finally {
-        // Close the Prisma client connection if it's not in production
-        if (process.env.NODE_ENV !== 'production') {
-            await prisma.$disconnect();
-        }
     }
 }
 
@@ -138,13 +121,8 @@ export async function GET() {
     } catch (error) {
         console.error('Error fetching devices:', error);
         return NextResponse.json(
-            { error: 'An error occurred while fetching devices inside the server.' },
+            { error: 'An internal server error occurred while fetching devices.' },
             { status: 500 }
         );
-    } finally {
-        // Close the Prisma client connection if it's not in production
-        if (process.env.NODE_ENV !== 'production') {
-            await prisma.$disconnect();
-        }
     }
 }
