@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { mockApi } from '@/app/services/mockService';
 import { Device } from '@/types'; // Import Device from types
-import { getAllDevices } from '@/app/services/apiService';
+import { getAllDevices, deleteDevice } from '@/app/services/apiService';
 import DeviceCard from '@/app/components/DeviceCard';
 // DeviceData is no longer exported from apiService, using Device from types
 import RegisterDeviceModal from '@/app/components/modals/RegisterDeviceModal';
@@ -177,7 +176,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                     confirmText="Delete"
                     onConfirm={async () => {
                         if (selectedDevice) {
-                            await mockApi.deleteDevice(selectedDevice.deviceId);
+                            await deleteDevice(selectedDevice.deviceId);
                             handleDeviceDeleted();
                         }
                     }}
