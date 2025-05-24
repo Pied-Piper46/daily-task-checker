@@ -3,27 +3,34 @@
 import AuthScreen from "@/app/components/AuthScreen";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { authenticate } from "@/app/services/apiService";
 
 export default function LoginPage() {
     const router = useRouter();
 
     useEffect(() => {
         // Redirect to home if already logged in
-        const savedAuthStatus = sessionStorage.getItem('isAuthenticated');
+        const savedAuthStatus = localStorage.getItem('isAuthenticated');
         if (savedAuthStatus === 'true') {
             router.push('/');
         }
     }, [router]);
 
     // Dummy password handling for demonstration purposes
-    const handleLogin = (password: string): boolean => {
-        const correctPassword = process.env.NEXT_PUBLIC_APP_PASSWORD_DEV;
+    const handleLogin = async (password: string): Promise<boolean> => {
+        if (!password) {
+            return false;
+        }
 
-        if (password === correctPassword) {
-            sessionStorage.setItem('isAuthenticated', 'true');
+        const result = await authenticate({ password });
+
+        if (result.success) {
+            console.log('Login successful:', result.message);
+            localStorage.setItem('isAuthenticated', 'true'); // simple auth flag
             router.push('/');
             return true;
         } else {
+            console.error('Login failed:', result.message);
             return false;
         }
     };

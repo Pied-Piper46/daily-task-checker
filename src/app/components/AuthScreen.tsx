@@ -3,7 +3,7 @@
 import React, { useState, useCallback } from 'react';
 
 interface AuthScreenProps {
-    onLogin: (password: string) => boolean;
+    onLogin: (password: string) => Promise<boolean>;
 }
 
 const LockIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
@@ -16,13 +16,13 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
 
-    const handleSubmit = useCallback((e: React.FormEvent) => {
+    const handleSubmit = useCallback(async (e: React.FormEvent) => {
         e.preventDefault();
         setError(''); // Clear previous error message
 
-        if (onLogin(password)) {
-            console.log('Login successful');
-        } else {
+        const success = await onLogin(password);
+
+        if (!success) {
             setError('Invalid password. Please try again.');
         }
     }, [password, onLogin]);
