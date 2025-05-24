@@ -33,11 +33,15 @@ export async function authenticate(
     
         return responseData;
 
-    } catch (error: any) {
+    } catch (error: unknown) { // Changed to unknown
         console.error('Error during authentication:', error);
+        let message = 'An error occurred during authentication by client side.';
+        if (error instanceof Error) {
+            message = error.message;
+        }
         return {
             success: false,
-            message: error.message || 'An error occurred during authentication by client side.',
+            message: message,
         };
     }
 }
@@ -62,10 +66,14 @@ export async function registerDevice(
     
         return responseData;
 
-    } catch (error: any) {
+    } catch (error: unknown) { // Changed to unknown
         console.error('Error during device registration:', error);
+        let message = 'An error occurred during device registration by client side.';
+        if (error instanceof Error) {
+            message = error.message;
+        }
         return {
-            message: error.message || 'An error occurred during device registration by client side.',
+            message: message,
         };
     }
 }
@@ -88,9 +96,13 @@ export async function getAllDevices(): Promise<Device[] | {message: string}> { /
         const responseData: { devices: Device[] } = await response.json(); // Expecting Device[]
         return responseData.devices;
 
-    } catch (error: any) {
+    } catch (error: unknown) { // Changed to unknown
         console.error('Error fetching devices:', error);
-        return { message: error.message || 'An error occurred while fetching devices by client side.' };
+        let message = 'An error occurred while fetching devices by client side.';
+        if (error instanceof Error) {
+            message = error.message;
+        }
+        return { message: message };
     }
 }
 
@@ -112,9 +124,13 @@ export async function deleteDevice(deviceId: string): Promise<void> {
         // We can just return void if response.ok is true.
         return;
 
-    } catch (error: any) {
+    } catch (error: unknown) { // Changed to unknown
         console.error(`Error deleting device ${deviceId}:`, error);
-        throw new Error(error.message || 'An error occurred during device deletion by client side.');
+        let message = 'An error occurred during device deletion by client side.';
+        if (error instanceof Error) {
+            message = error.message;
+        }
+        throw new Error(message);
     }
 }
 
@@ -140,9 +156,13 @@ export async function updateTaskName(
 
         return responseData.device;
 
-    } catch (error: any) {
+    } catch (error: unknown) { // Changed to unknown
         console.error(`Error updating task name for device ${deviceId}:`, error);
-        throw new Error(error.message || 'An error occurred during task name update by client side.');
+        let message = 'An error occurred during task name update by client side.';
+        if (error instanceof Error) {
+            message = error.message;
+        }
+        throw new Error(message);
     }
 }
 
@@ -195,9 +215,13 @@ export async function getDeviceHistory(
 
         return responseData as GetDeviceHistoryResponse;
 
-    } catch (error: any) {
+    } catch (error: unknown) { // Changed to unknown
         console.error(`Error fetching history for device ${deviceId}:`, error);
-        throw new Error(error.message || 'An error occurred during device history fetch by client side.');
+        let message = 'An error occurred during device history fetch by client side.';
+        if (error instanceof Error) {
+            message = error.message;
+        }
+        throw new Error(message);
     }
 }
 
