@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useCallback } from 'react';
-import { ModalProps } from '@/types';
-import { registerDevice, DeviceRegistrationPayload } from "@/app/services/apiService";
+import { ModalProps, DeviceRegistrationPayload } from '@/types'; // Import DeviceRegistrationPayload from types
+import { registerDevice } from "@/app/services/apiService";
 import ModalBase from '@/app/components/modals/ModalBase';
 
 interface RegisterDeviceModalProps extends ModalProps {

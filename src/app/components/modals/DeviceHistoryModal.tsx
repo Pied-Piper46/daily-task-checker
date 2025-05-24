@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {ModalProps, Device, HistoryEntry, Status } from '@/types';
+import {ModalProps, Device, HistoryEntry, Status } from '@/types'; // Import Device from types
 import { mockApi } from '@/app/services/mockService';
 import ModalBase from '@/app/components/modals/ModalBase';
 import { STATUS_DISPLAY } from '@/constants';
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIconSolid, XCircleIconSolid } from '@/app/components/icons/SolidAndOutlineIcons';
 
 interface DeviceHistoryModalProps extends ModalProps {
-    device: Device;
+    device: Device; // Changed to Device
 }
 
 const daysInMonth = (month: number, year: number) => new Date(year, month + 1, 0).getDate();

@@ -3,7 +3,8 @@
 import AuthScreen from "@/app/components/AuthScreen";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { authenticate, AuthPayload } from "@/app/services/apiService";
+import { authenticate } from "@/app/services/apiService";
+import { AuthPayload } from "@/types"; // Import AuthPayload from types
 
 export default function LoginPage() {
     const router = useRouter();

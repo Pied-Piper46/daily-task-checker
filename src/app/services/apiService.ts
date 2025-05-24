@@ -1,29 +1,11 @@
-export interface AuthPayload {
-    password: string;
-}
-
-export interface AuthResponse {
-    success: boolean;
-    message: string;
-    token?: string; // Optional token for future use
-}
-
-export interface DeviceData {
-    deviceId: string;
-    taskName: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
-export interface DeviceRegistrationPayload {
-    deviceId: string;
-    taskName: string;
-}
-
-export interface DeviceRegistrationResponse {
-    message: string;
-    device?: DeviceData;
-}
+// Import all necessary types from '@/types'
+import {
+    Device,
+    AuthPayload,
+    AuthResponse,
+    DeviceRegistrationPayload,
+    DeviceRegistrationResponse,
+} from '@/types';
 
 export async function authenticate(
     payload: AuthPayload
@@ -71,7 +53,7 @@ export async function registerDevice(
             body: JSON.stringify(devicePayload),
         });
     
-        const responseData: DeviceRegistrationResponse = await response.json();
+        const responseData: { message: string, device?: Device } = await response.json(); // Expecting Device
     
         if (!response.ok) {
             throw new Error(responseData.message || `HTTP error! status: ${response.status}`);
@@ -84,5 +66,63 @@ export async function registerDevice(
         return {
             message: error.message || 'An error occurred during device registration by client side.',
         };
+    }
+}
+
+export async function getAllDevices(): Promise<Device[] | {message: string}> { // Changed to Device[]
+    try {
+        const response = await fetch('/api/devices', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        }
+    
+        // The API returns { devices: Device[] }, so we need to extract it.
+        const responseData: { devices: Device[] } = await response.json(); // Expecting Device[]
+        return responseData.devices;
+
+    } catch (error: any) {
+        console.error('Error fetching devices:', error);
+        return { message: error.message || 'An error occurred while fetching devices by client side.' };
+    }
+}
+
+export async function getDeviceDetails(
+    deviceId: string
+): Promise<Device | { message: string } | null> { // Changed to Device
+    try {
+        if (!deviceId) {
+            return { message: 'Device ID is required.' };
+        }
+        // IMPORTANT: The current /api/devices/route.ts does NOT have a GET by ID.
+        // This function will not work as intended until that API endpoint is implemented.
+        // For now, this is a placeholder.
+        const response = await fetch(`/api/devices/${deviceId}`, { 
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            if (response.status === 404) {
+                return null;
+            }
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+        }
+
+        const device: Device = await response.json(); // Expecting Device
+        return device;
+
+    } catch (error: any) {
+        console.error('Error fetching device details:', error);
+        return { message: error.message || 'An error occurred while fetching device details by client side.' };
     }
 }

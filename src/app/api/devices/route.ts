@@ -108,7 +108,7 @@ export async function POST(request: Request) {
 
 // GET /api/devices
 // Get all devices
-export async function GET(request: Request) {
+export async function GET() {
     try {
         const devices = await prisma.device.findMany({
             orderBy: {createdAt: 'desc'},

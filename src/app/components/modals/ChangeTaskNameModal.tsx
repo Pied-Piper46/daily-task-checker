@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ModalProps, Device } from '@/types';
+import { ModalProps, Device } from '@/types'; // Import Device from types
 import { mockApi } from '@/app/services/mockService';
 import ModalBase from '@/app/components/modals/ModalBase';
 
 interface ChangeTaskNameModalProps extends ModalProps {
-    device: Device;
+    device: Device; // Changed to Device
     onTaskNameChanged: () => void;
 }
 

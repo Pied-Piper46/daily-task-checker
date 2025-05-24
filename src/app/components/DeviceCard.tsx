@@ -1,19 +1,23 @@
 "use client";
 
 import React from 'react';
-import { Device, Status } from '@/types';
+import { Device, Status } from '@/types'; // Device is now the standard
 import { STATUS_DISPLAY } from '@/constants';
+// DeviceData is no longer exported from apiService
 import { CheckCircleIconSolid, XCircleIconSolid, CalendarDaysIconOutline, PencilSquareIconOutline, TrashIconOutline } from '@/app/components/icons/SolidAndOutlineIcons';
 
 interface DeviceCardProps {
-    device: Device;
-    onViewHistory: (device: Device) => void;
-    onChangeTask: (device: Device) => void;
-    onDelete: (device: Device) => void;
+    device: Device; // Changed to Device
+    onViewHistory: (device: Device) => void; // Changed to Device
+    onChangeTask: (device: Device) => void; // Changed to Device
+    onDelete: (device: Device) => void; // Changed to Device
 }
 
 const DeviceCard: React.FC<DeviceCardProps> = ({ device, onViewHistory, onChangeTask, onDelete }) => {
-    const isDone = device.status === Status.DONE;
+    // Ensure currentStatus is always a valid Status enum value for display
+    const currentStatusEnum: Status = device.currentStatus === 'DONE' ? Status.DONE : Status.NOT_DONE;
+
+    const isDone = currentStatusEnum === Status.DONE;
     const statusColor = isDone ? 'text-emerald-400' : 'text-amber-400';
     const statusIcon = isDone
         ? <CheckCircleIconSolid className={`w-7 h-7 ${statusColor}`} aria-label="Status Done" />
@@ -29,7 +33,7 @@ const DeviceCard: React.FC<DeviceCardProps> = ({ device, onViewHistory, onChange
                 <div className="flex items-center mb-4">
                     {statusIcon}
                     <span className={`ml-2 text-lg font-medium ${statusColor}`}>
-                        {STATUS_DISPLAY[device.status]}
+                        {STATUS_DISPLAY[currentStatusEnum]}
                     </span>
                 </div>
                 <p className="text-sm text-slate-400 mb-3">

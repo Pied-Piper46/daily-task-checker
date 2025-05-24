@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Device } from '@/types';
 import { mockApi } from '@/app/services/mockService';
+import { Device } from '@/types'; // Import Device from types
+import { getAllDevices } from '@/app/services/apiService';
 import DeviceCard from '@/app/components/DeviceCard';
+// DeviceData is no longer exported from apiService, using Device from types
 import RegisterDeviceModal from '@/app/components/modals/RegisterDeviceModal';
 import DeviceHistoryModal from '@/app/components/modals/DeviceHistoryModal';
 import ChangeTaskNameModal from '@/app/components/modals/ChangeTaskNameModal';
@@ -14,10 +16,9 @@ interface DashboardProps {
     onLogout: () => void;
 }
 
-
 const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
-    const [devices, setDevices] = useState<Device[]>([]);
+    const [devices, setDevices] = useState<Device[]>([]); // Changed to Device[]
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -26,17 +27,25 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     const [isChangeTaskModalOpen, setIsChangeTaskModalOpen] = useState<boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-    const [selectedDevice, setSelectedDevice] = useState<Device | null>(null);
+    const [selectedDevice, setSelectedDevice] = useState<Device | null>(null); // Changed to Device
 
     const fetchDevices = useCallback(async () => {
         try {
             setIsLoading(true);
             setError(null);
-            const fetchedDevices = await mockApi.getDevices();
-            setDevices(fetchedDevices);
+            // const fetchedDevices = await mockApi.getDevices();
+            const result = await getAllDevices();
+            if (Array.isArray(result)) {
+                setDevices(result);
+            } else {
+                setError(result.message || 'Failed to fetch devices.');
+                console.error(result.message);
+                setDevices([]);
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch devices.');
             console.error(err);
+            setDevices([]);
         } finally {
             setIsLoading(false);
         }
@@ -48,17 +57,17 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
     const handleOpenRegisterModal = () => setIsRegisterModalOpen(true);
 
-    const handleOpenHistoryModal = (device: Device) => {
+    const handleOpenHistoryModal = (device: Device) => { // Changed to Device
         setSelectedDevice(device);
         setIsHistoryModalOpen(true);
     };
 
-    const handleOpenChangeTaskModal = (device: Device) => {
+    const handleOpenChangeTaskModal = (device: Device) => { // Changed to Device
         setSelectedDevice(device);
         setIsChangeTaskModalOpen(true);
     };
 
-    const handleOpenDeleteModal = (device: Device) => {
+    const handleOpenDeleteModal = (device: Device) => { // Changed to Device
         setSelectedDevice(device);
         setIsDeleteModalOpen(true);
     };
