@@ -169,7 +169,7 @@ export const mockApi = {
                     // If history is reset, also reset its status to NOT_DONE for today
                     devices[deviceIndex].currentStatus = Status.NOT_DONE; // Changed from status to currentStatus
                     const today = new Date().toISOString().split('T')[0];
-                    storeHistory(deviceId, [{ date: today, status: Status.NOT_DONE }]);
+                    storeHistory(deviceId, [{ timestamp: new Date().toISOString(), status: Status.NOT_DONE }]); // Use current timestamp
                     localStorage.setItem(`iot_dashboard_last_reset_${deviceId}`, today);
                     storeDevices(devices);
                 }

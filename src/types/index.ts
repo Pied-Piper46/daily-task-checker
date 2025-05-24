@@ -14,8 +14,9 @@ export interface Device {
 }
 
 export interface HistoryEntry {
-    date: string;
+    timestamp: string; // Changed from 'date' to 'timestamp'
     status: Status;
+    logId?: string; // Add logId as optional, as it's returned by API
 }
 
 export interface ModalProps {

@@ -87,7 +87,7 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
                                 return <div key={`empty-${index}`} className="p-1" role="gridcell" aria-hidden="true"></div>;
                             }
                             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayNumber).padStart(2, '0')}`;
-                            const historyEntry = history.find(h => h.date === dateStr);
+                            const historyEntry = history.find(h => new Date(h.timestamp).toISOString().split('T')[0] === dateStr);
 
                             let cellBgColor = 'bg-slate-700 hover:bg-slate-600';
                             let icon = null;
