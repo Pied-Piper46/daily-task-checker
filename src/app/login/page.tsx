@@ -16,7 +16,6 @@ export default function LoginPage() {
         }
     }, [router]);
 
-    // Dummy password handling for demonstration purposes
     const handleLogin = async (password: string): Promise<boolean> => {
         if (!password) {
             return false;

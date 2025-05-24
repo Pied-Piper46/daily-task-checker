@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { ModalProps } from '@/types';
 import { mockApi } from '@/app/services/mockService';
+import { registerDevice, DeviceRegistrationPayload } from "@/app/services/apiService";
 import ModalBase from '@/app/components/modals/ModalBase';
 
 interface RegisterDeviceModalProps extends ModalProps {
@@ -20,7 +21,25 @@ const RegisterDeviceModal: React.FC<RegisterDeviceModalProps> = ({ isOpen, onClo
         setIsLoading(true);
         setError(null);
         try {
-            await mockApi.registerDevice(deviceId, taskName);
+            // Validate inputs
+            if (!deviceId || !taskName) {
+                setError('Device ID and task name are required.');
+                setIsLoading(false);
+                return;
+            }
+            if (deviceId.trim() === '' || taskName.trim() === '') {
+                setError('Invalid device ID or task name.');
+                setIsLoading(false);
+                return;
+            }
+
+            const payload: DeviceRegistrationPayload = {
+                deviceId,
+                taskName,
+            };
+
+            await registerDevice(payload);
+
             setDeviceId(''); // Clear fields on success
             setTaskName('');
             onDeviceRegistered();
