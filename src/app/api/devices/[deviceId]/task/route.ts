@@ -4,7 +4,7 @@ import { Prisma } from '@prisma/client';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { deviceId: string } }
+  { params }: { params: Promise<{ deviceId: string }> }
 ) {
   try {
     const { deviceId } = await params;
