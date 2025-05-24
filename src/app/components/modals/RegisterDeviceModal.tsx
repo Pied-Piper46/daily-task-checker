@@ -2,7 +2,6 @@
 
 import React, { useState, useCallback } from 'react';
 import { ModalProps } from '@/types';
-import { mockApi } from '@/app/services/mockService';
 import { registerDevice, DeviceRegistrationPayload } from "@/app/services/apiService";
 import ModalBase from '@/app/components/modals/ModalBase';
 

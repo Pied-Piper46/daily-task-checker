@@ -3,7 +3,7 @@
 import AuthScreen from "@/app/components/AuthScreen";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { authenticate } from "@/app/services/apiService";
+import { authenticate, AuthPayload } from "@/app/services/apiService";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -21,7 +21,9 @@ export default function LoginPage() {
             return false;
         }
 
-        const result = await authenticate({ password });
+        const payload: AuthPayload = { password };
+
+        const result = await authenticate(payload);
 
         if (result.success) {
             console.log('Login successful:', result.message);
