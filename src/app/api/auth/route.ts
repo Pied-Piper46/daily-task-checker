@@ -4,7 +4,7 @@ interface AuthRequestBody {
     password?: string;
 }
 
-const APP_PASSWORD = process.env.NEXT_PUBLIC_APP_PASSWORD_DEV;
+const APP_PASSWORD = process.env.APP_PASSWORD_DEV;
 
 if (!APP_PASSWORD) {
     console.error('APP_PASSWORD_DEV is not defined in the environment variables.');
