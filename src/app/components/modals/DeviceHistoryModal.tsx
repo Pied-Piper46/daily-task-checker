@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import {ModalProps, Device, HistoryEntry, Status } from '@/types';
-import { mockApi } from '@/app/services/mockService';
+import {ModalProps, Device, HistoryEntry, Status } from '@/types'; // Import Device from types
+import { getDeviceHistory } from '@/app/services/apiService';
 import ModalBase from '@/app/components/modals/ModalBase';
 import { STATUS_DISPLAY } from '@/constants';
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIconSolid, XCircleIconSolid } from '@/app/components/icons/SolidAndOutlineIcons';
 
 interface DeviceHistoryModalProps extends ModalProps {
-    device: Device;
+    device: Device; // Changed to Device
 }
 
 const daysInMonth = (month: number, year: number) => new Date(year, month + 1, 0).getDate();
@@ -22,8 +22,8 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
         setIsLoading(true);
         setError(null);
         try {
-            const fetchedHistory = await mockApi.getDeviceHistory(device.deviceId);
-            setHistory(fetchedHistory);
+            const response = await getDeviceHistory(device.deviceId);
+            setHistory(response.history);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to fetch device history.');
             console.error(err);
@@ -87,7 +87,7 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
                                 return <div key={`empty-${index}`} className="p-1" role="gridcell" aria-hidden="true"></div>;
                             }
                             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayNumber).padStart(2, '0')}`;
-                            const historyEntry = history.find(h => h.date === dateStr);
+                            const historyEntry = history.find(h => new Date(h.timestamp).toISOString().split('T')[0] === dateStr);
 
                             let cellBgColor = 'bg-slate-700 hover:bg-slate-600';
                             let icon = null;

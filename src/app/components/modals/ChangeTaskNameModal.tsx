@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ModalProps, Device } from '@/types';
-import { mockApi } from '@/app/services/mockService';
+import { ModalProps, Device } from '@/types'; // Import Device from types
+import { updateTaskName } from '@/app/services/apiService';
 import ModalBase from '@/app/components/modals/ModalBase';
 
 interface ChangeTaskNameModalProps extends ModalProps {
-    device: Device;
+    device: Device; // Changed to Device
     onTaskNameChanged: () => void;
 }
 
@@ -28,7 +28,7 @@ const ChangeTaskNameModal: React.FC<ChangeTaskNameModalProps> = ({ isOpen, onClo
         setIsLoading(true);
         setError(null);
         try {
-            await mockApi.updateTaskName(device.deviceId, newTaskName, resetHistory);
+            await updateTaskName(device.deviceId, newTaskName, resetHistory);
             onTaskNameChanged();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to update task name.');

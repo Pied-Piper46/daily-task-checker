@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas = ["daily_task_checker"]
+}
+
+model Device {
+  deviceId String @id @unique
+  taskName String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  statusLog TaskStatusLog[]
+
+  @@map("devices")
+  @@schema("daily_task_checker")
+}
+
+model TaskStatusLog {
+  logId String @id @default(cuid())
+  deviceId String
+  timestamp DateTime
+  status String // "DONE" or "NOT_DONE"
+  device Device @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+
+  @@map("task_status_logs")
+  @@schema("daily_task_checker")
+}

@@ -12,7 +12,7 @@ export default function HomePage() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
-        const savedAuthStatus = sessionStorage.getItem('isAuthenticated');
+        const savedAuthStatus = localStorage.getItem('isAuthenticated');
 
         if (savedAuthStatus === 'true') {
             setIsAuthenticated(true);
@@ -24,7 +24,7 @@ export default function HomePage() {
     }, [router]);
 
     const handleLogout = useCallback(() => {
-        sessionStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('isAuthenticated');
         setIsAuthenticated(false);
         router.push('/login');
     }, [router]);
