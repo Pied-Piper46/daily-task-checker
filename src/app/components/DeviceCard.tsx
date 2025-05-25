@@ -5,6 +5,7 @@ import { Device, Status } from '@/types'; // Device is now the standard
 import { STATUS_DISPLAY } from '@/constants';
 // DeviceData is no longer exported from apiService
 import { CheckCircleIconSolid, XCircleIconSolid, CalendarDaysIconOutline, PencilSquareIconOutline, TrashIconOutline } from '@/app/components/icons/SolidAndOutlineIcons';
+import { formatToJapanDateTime } from '@/lib/dateUtils';
 
 interface DeviceCardProps {
     device: Device; // Changed to Device
@@ -45,7 +46,9 @@ const DeviceCard: React.FC<DeviceCardProps> = ({ device, onViewHistory, onChange
                 </div>
                 <p className="text-sm text-slate-400 mb-3 flex items-center">
                     <span className="text-slate-500 mr-2">Last updated:</span>
-                    <span className="font-medium">{device.lastUpdatedAt}</span>
+                    <span className="font-medium">
+                        {device.lastUpdatedAt ? formatToJapanDateTime(device.lastUpdatedAt) : 'N/A'}
+                    </span>
                 </p>
             </div>
             <div className="mt-auto pt-4 border-t border-slate-700/50 flex flex-col sm:flex-row gap-2">
