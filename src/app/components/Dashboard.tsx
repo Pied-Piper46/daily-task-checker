@@ -9,7 +9,8 @@ import RegisterDeviceModal from '@/app/components/modals/RegisterDeviceModal';
 import DeviceHistoryModal from '@/app/components/modals/DeviceHistoryModal';
 import ChangeTaskNameModal from '@/app/components/modals/ChangeTaskNameModal';
 import ConfirmationModal from '@/app/components/modals/ConfirmationModal';
-import { PlusIcon, LogoutIcon, DeviceTabletIcon } from '@/app/components/icons/SolidIcons';
+import { PlusIcon, LogoutIcon } from '@/app/components/icons/SolidIcons';
+import TaskCheckerLogo from '@/app/components/icons/TaskCheckerLogo';
 
 interface DashboardProps {
     onLogout: () => void;
@@ -90,12 +91,24 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     return (
         <div className="min-h-screen bg-slate-900 p-4 md:p-8 w-full flex flex-col">
             <header className="sticky top-0 z-10 bg-slate-900/95 backdrop-blur-sm border-b border-slate-800 -mx-4 md:-mx-8 px-4 md:px-8 py-4 mb-8">
-                <div className="flex justify-between items-center">
-                    <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-100 flex items-center">
-                        <DeviceTabletIcon className="w-8 h-8 md:w-10 md:h-10 mr-2 md:mr-3 text-sky-400" />
-                        <span className="hidden xs:inline">Dashboard</span>
-                        <span className="xs:hidden">IoT</span>
-                    </h1>
+                <div className="flex justify-between items-center min-h-[4rem] md:min-h-[5rem]">
+                    {/* Logo and Title Section - Left */}
+                    <div className="flex items-center space-x-3 md:space-x-4">
+                        <div className="flex-shrink-0">
+                            <TaskCheckerLogo 
+                                checkColor="#3b82f6" 
+                                plusColor="#10b981" 
+                                circleColor="#3b82f6"
+                                size="xl"
+                            />
+                        </div>
+                        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-100">
+                            <span className="hidden sm:inline">Dashboard</span>
+                            <span className="sm:hidden">IoT</span>
+                        </h1>
+                    </div>
+                    
+                    {/* Actions Section - Right */}
                     <div className="flex items-center space-x-2 md:space-x-4">
                         <button
                         onClick={handleOpenRegisterModal}
@@ -153,7 +166,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
             {!isLoading && !error && devices.length === 0 && (
                 <div className="flex-grow flex flex-col justify-center items-center py-16 text-center max-w-md mx-auto">
                     <div className="w-24 h-24 mx-auto mb-6 bg-slate-800 rounded-full flex items-center justify-center border-2 border-dashed border-slate-600">
-                        <DeviceTabletIcon className="w-12 h-12 text-slate-500" />
+                        <TaskCheckerLogo 
+                            checkColor="#64748b" 
+                            plusColor="#64748b" 
+                            circleColor="#64748b"
+                            size="xl"
+                        />
                     </div>
                     <h3 className="text-2xl font-semibold text-slate-300 mb-3">No devices yet</h3>
                     <p className="text-slate-500 mb-6 leading-relaxed">
