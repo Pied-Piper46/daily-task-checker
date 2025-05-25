@@ -69,9 +69,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
                                 <div className="w-20 h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl lg:rounded-3xl flex items-center justify-center shadow-lg">
                                     <DeviceTabletIcon className="w-10 h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 text-white" />
                                 </div>
-                                <div className="absolute -top-1 -right-1 w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-full flex items-center justify-center">
+                                {/* <div className="absolute -top-1 -right-1 w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-full flex items-center justify-center">
                                     <LockIcon className="w-3 h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 text-white" />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className="space-y-2 lg:space-y-3">
@@ -79,7 +79,6 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
                                 IoT Dashboard
                             </h1>
                             <p className="text-slate-400 text-lg lg:text-xl xl:text-2xl">Daily Task Checker</p>
-                            <p className="text-slate-500 text-sm lg:text-base">Secure access required</p>
                         </div>
                     </div>
 
