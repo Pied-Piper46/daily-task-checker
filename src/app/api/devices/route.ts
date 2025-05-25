@@ -108,7 +108,7 @@ export async function GET() {
                     deviceId: device.deviceId,
                     taskName: device.taskName,
                     currentStatus: latestLog?.status || 'NOT_DONE',
-                    lastUpdatedAt: latestLog?.timestamp.toISOString() || device.updatedAt.toISOString(),
+                    lastUpdatedAt: latestLog?.timestamp.toISOString() || null,
                 };
             })
         );

@@ -71,7 +71,7 @@ const ModalBase: React.FC<ModalBaseProps> = ({ isOpen, onClose, title, children,
         onClick={e => e.stopPropagation()} // Prevent closing when clicking inside modal
         role="document"
       >
-        <div className="flex justify-between items-center mb-6 lg:mb-8">
+        <div className="flex justify-between items-center mb-3 lg:mb-6">
           <h2 id="modal-title" className="text-2xl lg:text-3xl font-bold text-slate-100 text-shadow-sm">
             {title}
           </h2>
