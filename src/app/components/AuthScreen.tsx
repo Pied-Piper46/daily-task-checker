@@ -81,7 +81,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
                             </div>
                         </div>
                         <div className="space-y-2 lg:space-y-3">
-                            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-100 text-shadow-sm">
+                            <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-slate-100 text-shadow-sm">
                                 IoT Dashboard
                             </h1>
                             <p className="text-slate-400 text-lg lg:text-xl xl:text-2xl">Daily Task Checker</p>
