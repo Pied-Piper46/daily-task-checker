@@ -143,7 +143,7 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
                             </button>
                             <h3 className="text-2xl font-bold text-slate-100" aria-live="polite">
                                 {/* {yearName} {monthName} */}
-                                {year} - {month + 1}
+                                {year} / {month + 1}
                             </h3>
                             <button 
                                 onClick={() => changeMonth(1)} 

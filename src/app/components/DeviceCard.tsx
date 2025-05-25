@@ -47,7 +47,7 @@ const DeviceCard: React.FC<DeviceCardProps> = ({ device, onViewHistory, onChange
                 <p className="text-sm text-slate-400 mb-3 flex items-center">
                     <span className="text-slate-500 mr-2">Last updated:</span>
                     <span className="font-medium">
-                        {device.lastUpdatedAt ? formatToJapanDateTime(device.lastUpdatedAt) : 'N/A'}
+                        {device.lastUpdatedAt ? formatToJapanDateTime(device.lastUpdatedAt) : 'None'}
                     </span>
                 </p>
             </div>
