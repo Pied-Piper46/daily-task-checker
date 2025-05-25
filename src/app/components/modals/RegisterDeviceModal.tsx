@@ -80,7 +80,7 @@ const RegisterDeviceModal: React.FC<RegisterDeviceModalProps> = ({ isOpen, onClo
         <ModalBase isOpen={isOpen} onClose={onClose} title="Register New IoT Device" size="lg">
             <div className="space-y-6">
                 {/* Header with icon */}
-                <div className="flex items-center justify-center mb-6">
+                {/* <div className="flex items-center justify-center mb-6">
                     <div className="relative">
                         <div className="w-16 h-16 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
                             <DeviceTabletIcon className="w-10 h-10 text-white" />
@@ -89,7 +89,7 @@ const RegisterDeviceModal: React.FC<RegisterDeviceModalProps> = ({ isOpen, onClo
                             <PlusIcon className="w-3 h-3 text-white" />
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="text-center mb-6">
                     <p className="text-slate-400 text-sm leading-relaxed">

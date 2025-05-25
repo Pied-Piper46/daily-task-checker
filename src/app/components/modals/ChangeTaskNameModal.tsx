@@ -65,16 +65,16 @@ const ChangeTaskNameModal: React.FC<ChangeTaskNameModalProps> = ({ isOpen, onClo
         <ModalBase isOpen={isOpen} onClose={onClose} title="Change Task Name" size="lg">
             <div className="space-y-6">
                 {/* Header with icon */}
-                <div className="flex items-center justify-center mb-6">
+                {/* <div className="flex items-center justify-center mb-6">
                     <div className="relative">
                         <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
                             <TagIcon className="w-8 h-8 text-white" />
                         </div>
-                        {/* <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-sky-400 to-sky-500 rounded-full flex items-center justify-center">
+                        <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-sky-400 to-sky-500 rounded-full flex items-center justify-center">
                             <PencilSquareIconOutline className="w-3 h-3 text-white" />
-                        </div> */}
+                        </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Current task info */}
                 {/* <div className="bg-gradient-to-r from-slate-700/30 to-slate-600/30 rounded-xl p-4 border border-slate-600/30"> */}

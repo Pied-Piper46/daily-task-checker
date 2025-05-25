@@ -75,13 +75,13 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
         <ModalBase isOpen={isOpen} onClose={onClose} title={`Task History`} size="xl">
             <div className="space-y-6">
                 {/* Header with icon and device info */}
-                <div className="flex items-center justify-center mb-6">
+                {/* <div className="flex items-center justify-center mb-6">
                     <div className="relative">
                         <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
                             <CalendarDaysIconOutline className="w-8 h-8 text-white" />
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Device info card */}
                 {/* <div className="bg-gradient-to-r from-slate-700/30 to-slate-600/30 rounded-xl p-4 border border-slate-600/30">
