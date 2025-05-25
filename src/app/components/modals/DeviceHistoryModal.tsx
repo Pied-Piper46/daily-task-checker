@@ -4,7 +4,6 @@ import { getDeviceHistory } from '@/app/services/apiService';
 import ModalBase from '@/app/components/modals/ModalBase';
 import { STATUS_DISPLAY } from '@/constants';
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIconSolid, XCircleIconSolid } from '@/app/components/icons/SolidAndOutlineIcons';
-import { CalendarDaysIconOutline } from '@/app/components/icons/SolidAndOutlineIcons';
 import { ExclamationTriangleIcon } from '@/app/components/icons/SolidIcons';
 
 interface DeviceHistoryModalProps extends ModalProps {

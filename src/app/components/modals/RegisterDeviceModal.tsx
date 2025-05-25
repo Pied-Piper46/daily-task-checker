@@ -4,7 +4,7 @@ import React, { useState, useCallback } from 'react';
 import { ModalProps, DeviceRegistrationPayload } from '@/types'; // Import DeviceRegistrationPayload from types
 import { registerDevice } from "@/app/services/apiService";
 import ModalBase from '@/app/components/modals/ModalBase';
-import { DeviceTabletIcon, PlusIcon } from '@/app/components/icons/SolidIcons';
+import { PlusIcon } from '@/app/components/icons/SolidIcons';
 import { ExclamationTriangleIcon } from '@/app/components/icons/SolidIcons';
 
 interface RegisterDeviceModalProps extends ModalProps {
