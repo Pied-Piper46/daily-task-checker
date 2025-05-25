@@ -65,7 +65,7 @@ export default function HomePage() {
                 <title>{pageTitle}</title>
                 <meta name="description" content={pageDescription} />
             </Head>
-            <Dashboard onLogout={handleLogout} />;
+            <Dashboard onLogout={handleLogout} />
         </>
     );
 }
