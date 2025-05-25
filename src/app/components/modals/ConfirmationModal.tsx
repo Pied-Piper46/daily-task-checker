@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ModalProps } from '@/types';
 import ModalBase from '@/app/components/modals/ModalBase';
 import { ExclamationTriangleIcon } from '@/app/components/icons/SolidIcons';
+import { CheckCircleIconSolid } from '@/app/components/icons/SolidAndOutlineIcons';
 
 interface ConfirmationModalProps extends ModalProps {
     title: string;
@@ -13,6 +14,19 @@ interface ConfirmationModalProps extends ModalProps {
     cancelText?: string;
     isDestructive?: boolean;
 }
+
+// Custom icons
+const CheckIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+    </svg>
+);
+
+const XMarkIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+);
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     isOpen,
@@ -45,43 +59,76 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         }
     };
 
-    const confirmButtonColor = isDestructive
-        ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500' 
-        : 'bg-sky-600 hover:bg-sky-700 focus:ring-sky-500';
-
     return (
-        <ModalBase isOpen={isOpen} onClose={onClose} title={title} size="sm">
-            <div className="text-slate-300">
-                {isDestructive && (
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-200 mb-4" aria-hidden="true">
-                        <ExclamationTriangleIcon className="h-6 w-6 text-red-600" />
+        <ModalBase isOpen={isOpen} onClose={onClose} title={title} size="md">
+            <div className="space-y-6">
+                {/* Icon Section */}
+                <div className="flex items-center justify-center mb-6">
+                    <div className="relative">
+                        {isDestructive ? (
+                            <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center shadow-lg">
+                                <ExclamationTriangleIcon className="w-8 h-8 text-white" />
+                            </div>
+                        ) : (
+                            <div className="w-16 h-16 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+                                <CheckCircleIconSolid className="w-8 h-8 text-white" />
+                            </div>
+                        )}
                     </div>
-                )}
-                <p className="text-sm text-slate-400 mb-6">{message}</p>
-            </div>
-            <div className="flex justify-end space-x-3">
-                <button
-                    type="button"
-                    onClick={onClose}
-                    disabled={isLoading}
-                    className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-600 rounded-md hover:bg-slate-500 disabled:opacity-50 transition-colors"
-                >
-                    {cancelText}
-                </button>
-                <button
-                    type="button"
-                    onClick={handleConfirm}
-                    disabled={isLoading}
-                    className={`px-4 py-2 text-sm font-medium text-white rounded-md ${confirmButtonColor} disabled:opacity-50 transition-colors flex items-center`}
-                >
-                    {isLoading ? (
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" role="status" aria-hidden="true">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        ) : null}
-                    {isLoading ? 'Processing...' : confirmText}
-                </button>
+                </div>
+
+                {/* Message Section */}
+                <div className="text-center space-y-3">
+                    <p className="text-slate-300 text-base leading-relaxed">
+                        {message}
+                    </p>
+                    {isDestructive && (
+                        <div className="bg-gradient-to-r from-red-900/30 to-red-800/30 border border-red-700/30 rounded-xl p-3">
+                            <p className="text-red-300 text-sm font-medium">
+                                ⚠️ This action cannot be undone
+                            </p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-end space-x-3 pt-4 border-t border-slate-700/50">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        disabled={isLoading}
+                        className="px-6 py-3 text-sm font-medium text-slate-300 bg-slate-600/50 rounded-xl hover:bg-slate-500/50 disabled:opacity-50 transition-all duration-200 backdrop-blur-sm border border-slate-600/30 flex items-center"
+                    >
+                        <XMarkIcon className="w-4 h-4 mr-2" />
+                        {cancelText}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleConfirm}
+                        disabled={isLoading}
+                        className={`px-6 py-3 text-sm font-medium text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] disabled:transform-none flex items-center ${
+                            isDestructive
+                                ? 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800'
+                                : 'bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700'
+                        }`}
+                    >
+                        {isLoading ? (
+                            <>
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                                <span>Processing...</span>
+                            </>
+                        ) : (
+                            <>
+                                {isDestructive ? (
+                                    <ExclamationTriangleIcon className="w-4 h-4 mr-2" />
+                                ) : (
+                                    <CheckIcon className="w-4 h-4 mr-2" />
+                                )}
+                                <span>{confirmText}</span>
+                            </>
+                        )}
+                    </button>
+                </div>
             </div>
         </ModalBase>
     );

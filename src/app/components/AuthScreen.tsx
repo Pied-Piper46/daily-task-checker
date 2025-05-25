@@ -71,7 +71,8 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
                                         checkColor="#294073" 
                                         plusColor="#10b981" 
                                         circleColor="#294073"
-                                        size="3xl"
+                                        size="custom"
+                                        customSize="w-14 h-14 lg:w-16 lg:h-16 xl:w-18 xl:h-18"
                                     />
                                 </div>
                                 {/* <div className="absolute -top-1 -right-1 w-6 h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-full flex items-center justify-center">
@@ -80,7 +81,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onLogin }) => {
                             </div>
                         </div>
                         <div className="space-y-2 lg:space-y-3">
-                            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-100 text-shadow-sm">
+                            <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-slate-100 text-shadow-sm">
                                 IoT Dashboard
                             </h1>
                             <p className="text-slate-400 text-lg lg:text-xl xl:text-2xl">Daily Task Checker</p>

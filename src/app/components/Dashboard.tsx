@@ -99,12 +99,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
                                 checkColor="#3b82f6" 
                                 plusColor="#10b981" 
                                 circleColor="#3b82f6"
-                                size="xl"
+                                size="custom"
+                                customSize="w-10 h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14"
                             />
                         </div>
                         <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-100">
                             <span className="hidden sm:inline">Dashboard</span>
-                            <span className="sm:hidden">IoT</span>
+                            <span className="sm:hidden">Dashboard</span>
                         </h1>
                     </div>
                     
