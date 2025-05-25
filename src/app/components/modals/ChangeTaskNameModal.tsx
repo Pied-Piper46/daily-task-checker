@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { ModalProps, Device } from '@/types'; // Import Device from types
 import { updateTaskName } from '@/app/services/apiService';
 import ModalBase from '@/app/components/modals/ModalBase';
-import { PencilSquareIconOutline } from '@/app/components/icons/SolidAndOutlineIcons';
 import { ExclamationTriangleIcon } from '@/app/components/icons/SolidIcons';
 
 interface ChangeTaskNameModalProps extends ModalProps {

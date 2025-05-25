@@ -71,15 +71,6 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
 
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    // Calculate statistics
-    const currentMonthHistory = history.filter(h => {
-        const entryDate = new Date(h.timestamp);
-        return entryDate.getMonth() === month && entryDate.getFullYear() === year;
-    });
-    const completedDays = currentMonthHistory.filter(h => h.status === Status.DONE).length;
-    const totalDays = currentMonthHistory.length;
-    const completionRate = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
-
     return (
         <ModalBase isOpen={isOpen} onClose={onClose} title={`Task History`} size="xl">
             <div className="space-y-6">
