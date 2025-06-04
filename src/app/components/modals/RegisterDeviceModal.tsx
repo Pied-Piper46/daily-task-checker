@@ -58,7 +58,7 @@ const RegisterDeviceModal: React.FC<RegisterDeviceModalProps> = ({ isOpen, onClo
             setDeviceId(''); // Clear fields on success
             setTaskName('');
             onDeviceRegistered();
-        } catch (err) {
+        } catch (err: any) {
             setError(err instanceof Error ? err.message : 'Failed to register device.');
             console.error(err);
         } finally {
