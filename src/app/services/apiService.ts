@@ -58,13 +58,16 @@ export async function registerDevice(
             body: JSON.stringify(devicePayload),
         });
     
-        const responseData: { message: string, device?: Device } = await response.json(); // Expecting Device
+        const responseData: { message?: string, error?: string, device?: Device } = await response.json();
     
         if (!response.ok) {
-            throw new Error(responseData.message || `HTTP error! status: ${response.status}`);
+            throw new Error(responseData.error || responseData.message || `HTTP error! status: ${response.status}`);
         }
     
-        return responseData;
+        return {
+            message: responseData.message || 'Device registered successfully.',
+            device: responseData.device
+        };
 
     } catch (error: unknown) { // Changed to unknown
         console.error('Error during device registration:', error);
@@ -72,9 +75,7 @@ export async function registerDevice(
         if (error instanceof Error) {
             message = error.message;
         }
-        return {
-            message: message,
-        };
+        throw new Error(message);
     }
 }
 
