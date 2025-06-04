@@ -2,6 +2,62 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ deviceId: string }> }
+) {
+  try {
+    const { deviceId } = await params;
+
+    if (!deviceId) {
+      return NextResponse.json(
+        { message: 'Device ID is required.' },
+        { status: 400 }
+      );
+    }
+
+    const device = await prisma.device.findUnique({
+      where: { deviceId: deviceId },
+      include: {
+        statusLog: {
+          orderBy: {
+            timestamp: 'desc',
+          },
+          take: 1,
+        },
+      },
+    });
+
+    if (!device) {
+      return NextResponse.json(
+        { message: 'Device not found.' },
+        { status: 404 }
+      );
+    }
+
+    const currentStatus = device.statusLog[0]?.status || null;
+    const lastUpdatedAt = device.statusLog[0]?.timestamp || device.updatedAt;
+
+    return NextResponse.json(
+      {
+        deviceId: device.deviceId,
+        taskName: device.taskName,
+        currentStatus: currentStatus,
+        lastUpdatedAt: lastUpdatedAt.toISOString(),
+        createdAt: device.createdAt.toISOString(),
+        updatedAt: device.updatedAt.toISOString(),
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error fetching device details:', error);
+    return NextResponse.json(
+      { message: 'An internal server error occurred while fetching device details.' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ deviceId: string }> }
