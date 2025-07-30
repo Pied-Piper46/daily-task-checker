@@ -6,11 +6,13 @@ import { STATUS_DISPLAY } from '@/constants';
 import { ChevronLeftIcon, ChevronRightIcon, CheckCircleIconSolid, XCircleIconSolid } from '@/app/components/icons/SolidAndOutlineIcons';
 import { ExclamationTriangleIcon } from '@/app/components/icons/SolidIcons';
 import { 
-    formatToJapanDate, 
+    // formatToJapanDate,
+    formatToVancouverDate, 
     // getCurrentYearMonthJapan, 
     getDaysInMonthJapan, 
     getFirstDayOfMonthJapan,
-    isToday 
+    // isToday,
+    isTodayVancouver
 } from '@/lib/dateUtils';
 
 interface DeviceHistoryModalProps extends ModalProps {
@@ -169,7 +171,8 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
                                     return <div key={`empty-${index}`} className="h-16" role="gridcell" aria-hidden="true"></div>;
                                 }
                                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayNumber).padStart(2, '0')}`;
-                                const historyEntry = history.find(h => formatToJapanDate(h.timestamp) === dateStr);
+                                // const historyEntry = history.find(h => formatToJapanDate(h.timestamp) === dateStr);
+                                const historyEntry = history.find(h => formatToVancouverDate(h.timestamp) === dateStr);
 
                                 let cellBgColor = 'bg-gradient-to-br from-slate-700/50 to-slate-600/50 hover:from-slate-600/50 hover:to-slate-500/50';
                                 let icon = null;
@@ -189,18 +192,22 @@ const DeviceHistoryModal: React.FC<DeviceHistoryModalProps> = ({ isOpen, onClose
                                     }
                                 }
 
-                                const isTodayJapan = isToday(dateStr);
+                                // const isTodayJapan = isToday(dateStr);
+                                const isToday = isTodayVancouver(dateStr);
                                 const fullDateLabel = new Date(year, month, dayNumber).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
                                 return (
                                     <div
                                         key={dayNumber}
-                                        className={`h-16 p-2 border ${borderColor} rounded-xl ${cellBgColor} transition-all duration-200 flex flex-col items-center justify-center backdrop-blur-sm ${isTodayJapan ? 'ring-2 ring-sky-400 ring-offset-2 ring-offset-slate-800' : ''}`}
+                                        // className={`h-16 p-2 border ${borderColor} rounded-xl ${cellBgColor} transition-all duration-200 flex flex-col items-center justify-center backdrop-blur-sm ${isTodayJapan ? 'ring-2 ring-sky-400 ring-offset-2 ring-offset-slate-800' : ''}`}
+                                        className={`h-16 p-2 border ${borderColor} rounded-xl ${cellBgColor} transition-all duration-200 flex flex-col items-center justify-center backdrop-blur-sm ${isToday ? 'ring-2 ring-sky-400 ring-offset-2 ring-offset-slate-800' : ''}`}
                                         title={`${fullDateLabel}: ${statusLabel}`}
                                         role="gridcell"
-                                        aria-label={`${fullDateLabel}: ${statusLabel}${isTodayJapan ? ' (Today)' : ''}`}
+                                        // aria-label={`${fullDateLabel}: ${statusLabel}${isTodayJapan ? ' (Today)' : ''}`}
+                                        aria-label={`${fullDateLabel}: ${statusLabel}${isToday ? ' (Today)' : ''}`}
                                     >
-                                        <span className={`text-sm font-semibold ${isTodayJapan ? 'text-sky-200' : 'text-slate-200'}`}>
+                                        {/* <span className={`text-sm font-semibold ${isTodayJapan ? 'text-sky-200' : 'text-slate-200'}`}> */}
+                                        <span className={`text-sm font-semibold ${isToday ? 'text-sky-200' : 'text-slate-200'}`}>
                                             {dayNumber}
                                         </span>
                                         {icon && <div className="mt-1">{icon}</div>}
